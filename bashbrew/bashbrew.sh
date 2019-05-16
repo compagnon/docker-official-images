@@ -3,11 +3,12 @@ set -Eeuo pipefail
 
 dir="$(readlink -f "$BASH_SOURCE")"
 dir="$(dirname "$dir")"
+echo $dir
 
+export GOPATH="$dir/go:$dir/go/vendor"
 export GO111MODULE=on
 (
-	cd "$dir/go"
-	go build -o bin/bashbrew -mod vendor bashbrew/src/bashbrew > /dev/null
+	go build -o bin/bashbrew bashbrew 
 )
 
-exec "$dir/go/bin/bashbrew" "$@"
+exec "bin/bashbrew" "$@"
